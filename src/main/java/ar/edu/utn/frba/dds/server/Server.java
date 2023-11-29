@@ -29,8 +29,8 @@ public class Server {
   }
 
   public static void init() throws Exception {
-     EntityManagerFactory entityManagerFactory;
-    Initializer.init();
+    EntityManagerFactory entityManagerFactory;
+    //Initializer.init();
     if(app == null) {
 
 
@@ -45,14 +45,16 @@ public class Server {
 
       PrettyProperties.getInstance();
       Integer port = Integer.parseInt(System.getenv("PORT"));
-      app = Javalin.create(config()).start(port);
+      app = Javalin.create(config()).start(Integer.parseInt("8080"));
       initTemplateEngine();
       AppHandlers.applyHandlers(app);
       Router.init();
-
+/*
       if(Boolean.parseBoolean(PrettyProperties.getInstance().propertyFromName("dev_mode"))) {
         Initializer.init();
       }
+      */
+
     }
 
   }
