@@ -91,7 +91,7 @@ public class Server {
           configOverrides.put("javax.persistence.jdbc.password", password);
           configOverrides.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
 
-          //  configOverrides.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+          configOverrides.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         }
         // no se pueden poner variables de entorno con "." en la key
         String key2 = key.replace("__",".");
