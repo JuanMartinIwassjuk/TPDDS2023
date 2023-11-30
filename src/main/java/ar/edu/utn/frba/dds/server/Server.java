@@ -67,7 +67,6 @@ public class Server {
     Map<String, Object> configOverrides = new HashMap<String, Object>();
 
 
-    configOverrides.put("DATABASE_URL",env.get("DATABASE_URL"));
     configOverrides.put("javax.persistence.jdbc.url",  env.get("javax.persistence.jdbc.url"));
     configOverrides.put("javax.persistence.jdbc.user", env.get("javax.persistence.jdbc.user"));
     configOverrides.put("javax.persistence.jdbc.password", env.get("javax.persistence.jdbc.password"));
