@@ -73,7 +73,7 @@ public class Server {
     configOverrides.put("javax.persistence.jdbc.driver", env.get("javax.persistence.jdbc.driver"));
     configOverrides.put("hibernate.dialect", env.get("hibernate.dialect"));
 
-    return Persistence.createEntityManagerFactory("db", configOverrides);
+    return Persistence.createEntityManagerFactory("tpdds", configOverrides);
   }
 
 
