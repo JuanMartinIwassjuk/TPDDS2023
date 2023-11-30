@@ -72,7 +72,8 @@ public class Server {
     configOverrides.put("javax.persistence.jdbc.password", env.get("javax.persistence.jdbc.password"));
     configOverrides.put("javax.persistence.jdbc.driver", env.get("javax.persistence.jdbc.driver"));
     configOverrides.put("hibernate.dialect", env.get("hibernate.dialect"));
-
+    configOverrides.put("hibernate__hbm2ddl__auto", env.get("hibernate__hbm2ddl__auto"));
+    configOverrides.put("hibernate__show_sql", env.get("hibernate__show_sql"));
     return Persistence.createEntityManagerFactory("tpdds", configOverrides);
   }
 
