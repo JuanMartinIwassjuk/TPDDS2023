@@ -16,6 +16,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -49,7 +50,8 @@ public class Server {
       app = Javalin.create(config()).start(Integer.parseInt("8080"));
       initTemplateEngine();
       AppHandlers.applyHandlers(app);
-      Initializer.init();
+      EntityManager em = entityManagerFactory.createEntityManager();
+      Initializer.init(em);
       Router.init();
 /*
       if(Boolean.parseBoolean(PrettyProperties.getInstance().propertyFromName("dev_mode"))) {

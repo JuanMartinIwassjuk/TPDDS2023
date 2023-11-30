@@ -33,35 +33,40 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 
 public class Initializer implements WithSimplePersistenceUnit {
-  public static void init() throws IOException {
+
+
+  public static void init(EntityManager em) throws IOException {
+
     new Initializer()
-        .iniciarTransaccion()
-        .guardarUsuarios()
-        .guardarTramos()
-        .guardarServicios()
-        .guardarMiembro()
-        .guardarMiembro2()
-        .permisos()
+        .iniciarTransaccion(em)
+        .guardarUsuarios(em)
+        .guardarTramos(em)
+        .guardarServicios(em)
+        .guardarMiembro(em)
+        .guardarMiembro2(em)
+        .permisos(em)
         //.roles()
-        .commitearTransaccion();
+        .commitearTransaccion(em);
   }
 
-  private Initializer iniciarTransaccion() {
-    entityManager().getTransaction().begin();
+  private Initializer iniciarTransaccion(EntityManager em) {
+    em.getTransaction().begin();
     return this;
   }
 
-  private Initializer commitearTransaccion() {
-    entityManager().getTransaction().commit();
+  private Initializer commitearTransaccion(EntityManager em) {
+    em.getTransaction().commit();
     return this;
   }
 
 
 
-  private Initializer permisos() {
+  private Initializer permisos(EntityManager em) {
     String[][] permisos = {
         { "Ver servicios", "ver_servicios" },
         { "Crear servicios", "crear_servicios" },
@@ -73,7 +78,7 @@ public class Initializer implements WithSimplePersistenceUnit {
       Permiso permiso = new Permiso();
       permiso.setNombre(unPermiso[0]);
       permiso.setNombreInterno(unPermiso[1]);
-      entityManager().persist(permiso);
+      em.persist(permiso);
     }
 
     return this;
@@ -83,8 +88,8 @@ public class Initializer implements WithSimplePersistenceUnit {
 
 
   private interface BuscadorDePermisos extends WithSimplePersistenceUnit{
-    default Permiso buscarPermisoPorNombre(String nombre) {
-      return (Permiso) entityManager()
+    default Permiso buscarPermisoPorNombre(String nombre,EntityManager em) {
+      return (Permiso) em
           .createQuery("from " + Permiso.class.getName() + " where nombreInterno = :nombre")
           .setParameter("nombre", nombre)
           .getSingleResult();
@@ -93,32 +98,32 @@ public class Initializer implements WithSimplePersistenceUnit {
 
 
 
-  private Initializer roles() {
+  private Initializer roles(EntityManager em) {
     BuscadorDePermisos buscadorDePermisos = new BuscadorDePermisos() {};
 
     Rol administrador = new Rol();
     administrador.setNombre("Administrador");
     administrador.setTipo(TipoRol.ADMINISTRADOR);
     administrador.agregarPermisos(
-        buscadorDePermisos.buscarPermisoPorNombre("crear_servicios")
+        buscadorDePermisos.buscarPermisoPorNombre("crear_servicios",em)
     );
-    entityManager().persist(administrador);
+    em.persist(administrador);
 
     Rol consumidor = new Rol();
     consumidor.setNombre("Consumidor");
     consumidor.setTipo(TipoRol.NORMAL);
     consumidor.agregarPermisos(
-        buscadorDePermisos.buscarPermisoPorNombre("ver_servicios")
+        buscadorDePermisos.buscarPermisoPorNombre("ver_servicios",em)
     );
-    entityManager().persist(consumidor);
+    em.persist(consumidor);
 
     Rol prestador = new Rol();
     prestador.setNombre("Prestador");
     prestador.setTipo(TipoRol.NORMAL);
     prestador.agregarPermisos(
-        buscadorDePermisos.buscarPermisoPorNombre("ver_servicios")
+        buscadorDePermisos.buscarPermisoPorNombre("ver_servicios",em)
     );
-    entityManager().persist(prestador);
+    em.persist(prestador);
 
     return this;
   }
@@ -126,7 +131,7 @@ public class Initializer implements WithSimplePersistenceUnit {
 
 
 
-  private Initializer guardarUsuarios() {
+  private Initializer guardarUsuarios(EntityManager em) {
 
 
     List<Permiso> permisosConcedidos = new ArrayList<>();
@@ -144,14 +149,14 @@ public class Initializer implements WithSimplePersistenceUnit {
     Usuario usuarioMatiFdz = new Usuario("matifdz19","conTrAs3NiA%","mati@gmail.com","115215412",rolAdmin);
     persist(usuarioMatiFdz);
 
-    entityManager().persist(rolAdmin);
-    entityManager().persist(usuarioMatiFdz);
+    em.persist(rolAdmin);
+    em.persist(usuarioMatiFdz);
 
     return this;
   }
 
 
-  private Initializer guardarTramos() {
+  private Initializer guardarTramos(EntityManager em) {
 
     List<Obstaculo>obstaculosTramo1 = new ArrayList<>();
     obstaculosTramo1.add(Obstaculo.BARRICADA);
@@ -164,8 +169,8 @@ public class Initializer implements WithSimplePersistenceUnit {
 
 
 
-    entityManager().persist(tramo1);
-    entityManager().persist(tramo2);
+    em.persist(tramo1);
+    em.persist(tramo2);
 
     return this;
 
@@ -174,7 +179,7 @@ public class Initializer implements WithSimplePersistenceUnit {
 
 
 
-  private Initializer guardarServicios() {
+  private Initializer guardarServicios(EntityManager em) {
 
     List<Obstaculo>obstaculosTramo3 = new ArrayList<>();
     obstaculosTramo3.add(Obstaculo.BARRICADA);
@@ -254,21 +259,21 @@ public class Initializer implements WithSimplePersistenceUnit {
     ascensor3.setCalleAcceso(tramo10);
 
 
-    entityManager().persist(tramo3);
-    entityManager().persist(tramo4);
-    entityManager().persist(tramo5);
-    entityManager().persist(tramo6);
-    entityManager().persist(tramo7);
-    entityManager().persist(tramo8);
-    entityManager().persist(tramo9);
-    entityManager().persist(tramo10);
+    em.persist(tramo3);
+    em.persist(tramo4);
+    em.persist(tramo5);
+    em.persist(tramo6);
+    em.persist(tramo7);
+    em.persist(tramo8);
+    em.persist(tramo9);
+    em.persist(tramo10);
 
 
-    entityManager().persist(ascensor);
-    entityManager().persist(escaleraMecanica);
-    entityManager().persist(banioMujer);
-    entityManager().persist(ascensor2);
-    entityManager().persist(ascensor3);
+    em.persist(ascensor);
+    em.persist(escaleraMecanica);
+    em.persist(banioMujer);
+    em.persist(ascensor2);
+    em.persist(ascensor3);
 
     return this;
   }
@@ -277,7 +282,7 @@ public class Initializer implements WithSimplePersistenceUnit {
 
 
 
-  private Initializer guardarMiembro() throws IOException {
+  private Initializer guardarMiembro(EntityManager em) throws IOException {
 
 
     List<Permiso> permisosConcedidos = new ArrayList<>();
@@ -396,13 +401,13 @@ public class Initializer implements WithSimplePersistenceUnit {
 
 
 
-    entityManager().persist(usuarioJavier);
-    entityManager().persist(comunidadMedrano);
-    entityManager().persist(prestacion);
-    entityManager().persist(incidenteBanioMedrano);
-    entityManager().persist(lineaB);
-    entityManager().persist(estacionMedrano);
-    entityManager().persist(miembroJavier);
+    em.persist(usuarioJavier);
+    em.persist(comunidadMedrano);
+    em.persist(prestacion);
+    em.persist(incidenteBanioMedrano);
+    em.persist(lineaB);
+    em.persist(estacionMedrano);
+    em.persist(miembroJavier);
 
     return this;
 
@@ -410,7 +415,7 @@ public class Initializer implements WithSimplePersistenceUnit {
 
 
 
-  private Initializer guardarMiembro2() throws IOException {
+  private Initializer guardarMiembro2(EntityManager em) throws IOException {
 
     List<Permiso> permisosConcedidos = new ArrayList<>();
     Permiso permisoAbrirIncidente = new Permiso();
@@ -609,28 +614,28 @@ public class Initializer implements WithSimplePersistenceUnit {
 
     //Persistencia
 
-    entityManager().persist(permisoAbrirIncidente);
-    entityManager().persist(rolAdmin);
-    entityManager().persist(usuarioMatias);
-    entityManager().persist(comunidadVecinosRetiro);
-    entityManager().persist(prestacion);
-    entityManager().persist(incidenteEscaleraRetiro);
-    entityManager().persist(lineaA);
-    entityManager().persist(estacionMedrano);
-    entityManager().persist(miembroMatias);
+    em.persist(permisoAbrirIncidente);
+    em.persist(rolAdmin);
+    em.persist(usuarioMatias);
+    em.persist(comunidadVecinosRetiro);
+    em.persist(prestacion);
+    em.persist(incidenteEscaleraRetiro);
+    em.persist(lineaA);
+    em.persist(estacionMedrano);
+    em.persist(miembroMatias);
 
 
-    entityManager().persist(permisoAbrirIncidente);
-    entityManager().persist(rolAdmin);
-    entityManager().persist(usuarioJuan);
-    entityManager().persist(prestacion);
-    entityManager().persist(incidenteEscaleraRetiro);
-    entityManager().persist(lineaA);
-    entityManager().persist(estacionMedrano);
-    entityManager().persist(miembroJuan);
+    em.persist(permisoAbrirIncidente);
+    em.persist(rolAdmin);
+    em.persist(usuarioJuan);
+    em.persist(prestacion);
+    em.persist(incidenteEscaleraRetiro);
+    em.persist(lineaA);
+    em.persist(estacionMedrano);
+    em.persist(miembroJuan);
 
 
-    entityManager().persist(comunidadSubteLineaB);
+    em.persist(comunidadSubteLineaB);
 
     return this;
 
