@@ -13,4 +13,4 @@ FROM openjdk:17-jdk-slim
 COPY --from=build /target/ejercicio-1.0-SNAPSHOT-jar-with-dependencies.jar ejercicio-1.0-SNAPSHOT.jar
 # ENV PORT=8090
 EXPOSE 8090
-CMD ["java","-classpath","ejercicio-1.0-SNAPSHOT.jar","ar/edu/utn/frba/dds/server/App.java"]
+CMD ["java","-classpath","ejercicio-1.0-SNAPSHOT.jar","ar/edu/utn/frba/dds/server/App"]
