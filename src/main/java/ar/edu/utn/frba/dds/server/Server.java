@@ -37,6 +37,9 @@ public class Server {
       Map<String, String> env = System.getenv();
 
       entityManagerFactory =  createEntityManagerFactory();
+      System.out.println("Se creo el entity manager ok");
+      System.out.println("Se creo el entity manager ok");
+      System.out.println("Se creo el entity manager ok");
       String strport = System.getenv("PORT");
       if (strport == null){
         strport = "8080";
@@ -71,9 +74,7 @@ public class Server {
     configOverrides.put("javax.persistence.jdbc.user", env.get("javax.persistence.jdbc.user"));
     configOverrides.put("javax.persistence.jdbc.password", env.get("javax.persistence.jdbc.password"));
     configOverrides.put("javax.persistence.jdbc.driver", env.get("javax.persistence.jdbc.driver"));
-    configOverrides.put("hibernate.dialect", env.get("hibernate.dialect"));
-    configOverrides.put("hibernate__hbm2ddl__auto", env.get("hibernate__hbm2ddl__auto"));
-    configOverrides.put("hibernate__show_sql", env.get("hibernate__show_sql"));
+    configOverrides.put("hibernate.hbm2ddl.auto", env.get("hibernate.hbm2ddl.auto"));
     return Persistence.createEntityManagerFactory("tpdds", configOverrides);
   }
 
