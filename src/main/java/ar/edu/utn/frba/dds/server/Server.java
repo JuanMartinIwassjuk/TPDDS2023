@@ -30,16 +30,14 @@ public class Server {
 
   public static void init() throws Exception {
     EntityManagerFactory entityManagerFactory;
-    //Initializer.init();
+
     if(app == null) {
 
 
       Map<String, String> env = System.getenv();
 
       entityManagerFactory =  createEntityManagerFactory();
-      System.out.println("Se creo el entity manager ok");
-      System.out.println("Se creo el entity manager ok");
-      System.out.println("Se creo el entity manager ok");
+
       String strport = System.getenv("PORT");
       if (strport == null){
         strport = "8080";
@@ -51,6 +49,7 @@ public class Server {
       app = Javalin.create(config()).start(Integer.parseInt("8080"));
       initTemplateEngine();
       AppHandlers.applyHandlers(app);
+      Initializer.init();
       Router.init();
 /*
       if(Boolean.parseBoolean(PrettyProperties.getInstance().propertyFromName("dev_mode"))) {
