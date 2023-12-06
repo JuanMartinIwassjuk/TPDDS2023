@@ -10,7 +10,7 @@
 
 
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/nombre_de_tu_base_de_datos"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/dpg-cljr3sh8mmjc73dbl5dg-a"/>
       <property name="javax.persistence.jdbc.user" value="tu_usuario"/>
       <property name="javax.persistence.jdbc.password" value="tu_contrasenia"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
