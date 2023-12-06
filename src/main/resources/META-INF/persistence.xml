@@ -10,9 +10,9 @@
 
 
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/dpg-cljr3sh8mmjc73dbl5dg-a"/>
-      <property name="javax.persistence.jdbc.user" value="tu_usuario"/>
-      <property name="javax.persistence.jdbc.password" value="tu_contrasenia"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://dpg-cljr3sh8mmjc73dbl5dg-a/tpdds"/>
+      <property name="javax.persistence.jdbc.user" value="tpdds_user"/>
+      <property name="javax.persistence.jdbc.password" value="noxcQUDcogMrxmJabw4WSpqfZDO24ErW"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
       <property name="hibernate.hbm2ddl.auto" value="create"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
