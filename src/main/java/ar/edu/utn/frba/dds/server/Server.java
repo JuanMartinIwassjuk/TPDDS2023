@@ -76,6 +76,7 @@ public class Server {
     configOverrides.put("javax.persistence.jdbc.password", env.get("javax.persistence.jdbc.password"));
     configOverrides.put("javax.persistence.jdbc.driver", env.get("javax.persistence.jdbc.driver"));
     configOverrides.put("hibernate.hbm2ddl.auto", env.get("hibernate.hbm2ddl.auto"));
+    configOverrides.put("hibernate.dialect",env.get("hibernate.dialect"));
     return Persistence.createEntityManagerFactory("simple-persistence-unit", configOverrides);
   }
 
