@@ -51,7 +51,7 @@ public class Server {
       initTemplateEngine();
       AppHandlers.applyHandlers(app);
       EntityManager em = entityManagerFactory.createEntityManager();
-      //Initializer.init(em);
+      Initializer.init(em);
       Router.init();
 /*
       if(Boolean.parseBoolean(PrettyProperties.getInstance().propertyFromName("dev_mode"))) {

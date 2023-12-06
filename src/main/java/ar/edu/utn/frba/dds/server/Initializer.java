@@ -40,33 +40,42 @@ import javax.persistence.EntityManagerFactory;
 public class Initializer implements WithSimplePersistenceUnit {
 
 
+   private static  EntityManager em;
+
+  public Initializer(EntityManager em){
+
+    this.em=em;
+
+  }
+
+
   public static void init(EntityManager em) throws IOException {
 
-    new Initializer()
-        .iniciarTransaccion(em)
-        .guardarUsuarios(em)
-        .guardarTramos(em)
-        .guardarServicios(em)
-        .guardarMiembro(em)
-        .guardarMiembro2(em)
-        .permisos(em)
+    new Initializer(em)
+        .iniciarTransaccion()
+        .guardarUsuarios()
+        .guardarTramos()
+        .guardarServicios()
+        .guardarMiembro()
+        .guardarMiembro2()
+        .permisos()
         //.roles()
-        .commitearTransaccion(em);
+        .commitearTransaccion();
   }
 
-  private Initializer iniciarTransaccion(EntityManager em) {
-    em.getTransaction().begin();
+  private Initializer iniciarTransaccion() {
+    this.em.getTransaction().begin();
     return this;
   }
 
-  private Initializer commitearTransaccion(EntityManager em) {
-    em.getTransaction().commit();
+  private Initializer commitearTransaccion() {
+    this.em.getTransaction().commit();
     return this;
   }
 
 
 
-  private Initializer permisos(EntityManager em) {
+  private Initializer permisos() {
     String[][] permisos = {
         { "Ver servicios", "ver_servicios" },
         { "Crear servicios", "crear_servicios" },
@@ -78,7 +87,7 @@ public class Initializer implements WithSimplePersistenceUnit {
       Permiso permiso = new Permiso();
       permiso.setNombre(unPermiso[0]);
       permiso.setNombreInterno(unPermiso[1]);
-      em.persist(permiso);
+      this.em.persist(permiso);
     }
 
     return this;
@@ -88,7 +97,7 @@ public class Initializer implements WithSimplePersistenceUnit {
 
 
   private interface BuscadorDePermisos extends WithSimplePersistenceUnit{
-    default Permiso buscarPermisoPorNombre(String nombre,EntityManager em) {
+    default Permiso buscarPermisoPorNombre(String nombre) {
       return (Permiso) em
           .createQuery("from " + Permiso.class.getName() + " where nombreInterno = :nombre")
           .setParameter("nombre", nombre)
@@ -105,7 +114,7 @@ public class Initializer implements WithSimplePersistenceUnit {
     administrador.setNombre("Administrador");
     administrador.setTipo(TipoRol.ADMINISTRADOR);
     administrador.agregarPermisos(
-        buscadorDePermisos.buscarPermisoPorNombre("crear_servicios",em)
+        buscadorDePermisos.buscarPermisoPorNombre("crear_servicios")
     );
     em.persist(administrador);
 
@@ -113,7 +122,7 @@ public class Initializer implements WithSimplePersistenceUnit {
     consumidor.setNombre("Consumidor");
     consumidor.setTipo(TipoRol.NORMAL);
     consumidor.agregarPermisos(
-        buscadorDePermisos.buscarPermisoPorNombre("ver_servicios",em)
+        buscadorDePermisos.buscarPermisoPorNombre("ver_servicios")
     );
     em.persist(consumidor);
 
@@ -121,7 +130,7 @@ public class Initializer implements WithSimplePersistenceUnit {
     prestador.setNombre("Prestador");
     prestador.setTipo(TipoRol.NORMAL);
     prestador.agregarPermisos(
-        buscadorDePermisos.buscarPermisoPorNombre("ver_servicios",em)
+        buscadorDePermisos.buscarPermisoPorNombre("ver_servicios")
     );
     em.persist(prestador);
 
@@ -131,7 +140,7 @@ public class Initializer implements WithSimplePersistenceUnit {
 
 
 
-  private Initializer guardarUsuarios(EntityManager em) {
+  private Initializer guardarUsuarios() {
 
 
     List<Permiso> permisosConcedidos = new ArrayList<>();
@@ -149,14 +158,14 @@ public class Initializer implements WithSimplePersistenceUnit {
     Usuario usuarioMatiFdz = new Usuario("matifdz19","conTrAs3NiA%","mati@gmail.com","115215412",rolAdmin);
     persist(usuarioMatiFdz);
 
-    em.persist(rolAdmin);
-    em.persist(usuarioMatiFdz);
+    this.em.persist(rolAdmin);
+    this.em.persist(usuarioMatiFdz);
 
     return this;
   }
 
 
-  private Initializer guardarTramos(EntityManager em) {
+  private Initializer guardarTramos() {
 
     List<Obstaculo>obstaculosTramo1 = new ArrayList<>();
     obstaculosTramo1.add(Obstaculo.BARRICADA);
@@ -169,8 +178,8 @@ public class Initializer implements WithSimplePersistenceUnit {
 
 
 
-    em.persist(tramo1);
-    em.persist(tramo2);
+    this.em.persist(tramo1);
+    this.em.persist(tramo2);
 
     return this;
 
@@ -179,7 +188,7 @@ public class Initializer implements WithSimplePersistenceUnit {
 
 
 
-  private Initializer guardarServicios(EntityManager em) {
+  private Initializer guardarServicios() {
 
     List<Obstaculo>obstaculosTramo3 = new ArrayList<>();
     obstaculosTramo3.add(Obstaculo.BARRICADA);
@@ -259,21 +268,21 @@ public class Initializer implements WithSimplePersistenceUnit {
     ascensor3.setCalleAcceso(tramo10);
 
 
-    em.persist(tramo3);
-    em.persist(tramo4);
-    em.persist(tramo5);
-    em.persist(tramo6);
-    em.persist(tramo7);
-    em.persist(tramo8);
-    em.persist(tramo9);
-    em.persist(tramo10);
+    this.em.persist(tramo3);
+    this.em.persist(tramo4);
+    this.em.persist(tramo5);
+    this.em.persist(tramo6);
+    this.em.persist(tramo7);
+    this.em.persist(tramo8);
+    this.em.persist(tramo9);
+    this.em.persist(tramo10);
 
 
-    em.persist(ascensor);
-    em.persist(escaleraMecanica);
-    em.persist(banioMujer);
-    em.persist(ascensor2);
-    em.persist(ascensor3);
+    this.em.persist(ascensor);
+    this.em.persist(escaleraMecanica);
+    this.em.persist(banioMujer);
+    this.em.persist(ascensor2);
+    this.em.persist(ascensor3);
 
     return this;
   }
@@ -282,7 +291,7 @@ public class Initializer implements WithSimplePersistenceUnit {
 
 
 
-  private Initializer guardarMiembro(EntityManager em) throws IOException {
+  private Initializer guardarMiembro() throws IOException {
 
 
     List<Permiso> permisosConcedidos = new ArrayList<>();
@@ -415,7 +424,7 @@ public class Initializer implements WithSimplePersistenceUnit {
 
 
 
-  private Initializer guardarMiembro2(EntityManager em) throws IOException {
+  private Initializer guardarMiembro2() throws IOException {
 
     List<Permiso> permisosConcedidos = new ArrayList<>();
     Permiso permisoAbrirIncidente = new Permiso();
@@ -614,28 +623,28 @@ public class Initializer implements WithSimplePersistenceUnit {
 
     //Persistencia
 
-    em.persist(permisoAbrirIncidente);
-    em.persist(rolAdmin);
-    em.persist(usuarioMatias);
-    em.persist(comunidadVecinosRetiro);
-    em.persist(prestacion);
-    em.persist(incidenteEscaleraRetiro);
-    em.persist(lineaA);
-    em.persist(estacionMedrano);
-    em.persist(miembroMatias);
+    this.em.persist(permisoAbrirIncidente);
+    this.em.persist(rolAdmin);
+    this.em.persist(usuarioMatias);
+    this.em.persist(comunidadVecinosRetiro);
+    this.em.persist(prestacion);
+    this.em.persist(incidenteEscaleraRetiro);
+    this.em.persist(lineaA);
+    this.em.persist(estacionMedrano);
+    this.em.persist(miembroMatias);
 
 
-    em.persist(permisoAbrirIncidente);
-    em.persist(rolAdmin);
-    em.persist(usuarioJuan);
-    em.persist(prestacion);
-    em.persist(incidenteEscaleraRetiro);
-    em.persist(lineaA);
-    em.persist(estacionMedrano);
-    em.persist(miembroJuan);
+    this.em.persist(permisoAbrirIncidente);
+    this.em.persist(rolAdmin);
+    this.em.persist(usuarioJuan);
+    this.em.persist(prestacion);
+    this.em.persist(incidenteEscaleraRetiro);
+    this.em.persist(lineaA);
+    this.em.persist(estacionMedrano);
+    this.em.persist(miembroJuan);
 
 
-    em.persist(comunidadSubteLineaB);
+    this.em.persist(comunidadSubteLineaB);
 
     return this;
 
