@@ -10,12 +10,10 @@
 
 
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/nombre_de_tu_base_de_datos"/>
-      <property name="javax.persistence.jdbc.user" value="tu_usuario"/>
-      <property name="javax.persistence.jdbc.password" value="tu_contrasenia"/>
-      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-      <property name="hibernate.hbm2ddl.auto" value="create"/>
-      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+      <property name="hibernate.archive.autodetection" value="class" />
+      <property name="hibernate.show_sql" value="true" />
+      <property name="hibernate.format_sql" value="true" />
+      <property name="use_sql_comments" value="true" />
 
       <!--<property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
       <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:app-db"/>
