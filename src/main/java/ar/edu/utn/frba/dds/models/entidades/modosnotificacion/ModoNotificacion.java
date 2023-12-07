@@ -6,7 +6,13 @@ import javax.persistence.Converter;
 
 public interface ModoNotificacion {
     Boolean estaEnRangoHorario(LocalDateTime fecha);
+
     @Override
-    public boolean equals(Object o);
+    boolean equals(Object o);
+
+    @Override
+    int hashCode();
 
 }
+
+
