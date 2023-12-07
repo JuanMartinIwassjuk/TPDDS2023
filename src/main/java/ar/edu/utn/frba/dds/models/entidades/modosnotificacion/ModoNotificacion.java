@@ -4,4 +4,7 @@ import java.time.LocalDateTime;
 
 public interface ModoNotificacion {
     Boolean estaEnRangoHorario(LocalDateTime fecha);
+    @Override
+    public boolean equals(Object o);
+
 }
