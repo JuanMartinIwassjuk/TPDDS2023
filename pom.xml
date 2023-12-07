@@ -16,6 +16,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+    <property name="hibernate.connection.provider_class">org.hibernate.c3p0.C3P0ConnectionProvider</property>
+    <property name="hibernate.c3p0.min_size">5</property>
+    <property name="hibernate.c3p0.max_size">20</property>
   </properties>
 
   <dependencies>
@@ -42,7 +45,7 @@
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
-      <version>42.2.14</version>
+      <version>42.7.0</version>
     </dependency>
 
 
@@ -99,12 +102,12 @@
     </dependency>
 
     <!-- drivers jdbc -->
-    <!-- mysql -->
+    <!-- mysql
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>8.0.28</version>
-    </dependency>
+    </dependency>-->
 
     <!-- hsqldb -->
     <dependency>
