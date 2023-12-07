@@ -41,12 +41,12 @@ public class Initializer implements WithSimplePersistenceUnit {
   public static void init() throws IOException {
     new Initializer()
         .iniciarTransaccion()
-        //.guardarMiembro()
+        .guardarMiembro()
         .permisos()
         .roles()
         .usuariosIniciales()
-        //.guardarTramos()
-        //.guardarServicios()
+        .guardarTramos()
+        .guardarServicios()
         .guardarMiembro2()
         .commitearTransaccion();
   }
